@@ -1,0 +1,137 @@
+# Test Run
+docker run hello-world
+
+# Docker Pull
+# Download docker image without running it
+docker pull <image_name>
+
+# Example:
+docker pull alpine
+docker pull hello-world
+docker pull ubuntu
+docker pull centos
+docker pull python
+docker pull python:3.7-slim
+
+# Run docker image
+docker run <image_name>
+docker run <image_name> <command>
+
+docker run -d --name <container_name> <image_name>
+#-d is to detached from terminal and run in the background, suitable for server
+#--name name the container
+
+docker run -d --name <container_name> -p 80:80 <image_name> <command>
+#-p map the network port from the host to the container
+
+docker run -it <image_name> <command>
+# -i is for interactive session
+# -t is to create a tty for user interaction
+# usually use -it
+
+docker run -it --name <container_name> <image_name> <command>
+
+Examples:
+docker run hello-world
+docker run -d -p 80:80 --name webserver nginx
+docker run alpine ls -al
+docker run alpine echo "Hello"
+docker run alpine uname -r
+docker run -it alpine /bin/sh
+
+# Run docker with folder mapping
+docker run -it --name <name> -v <localPath>:<containerPath> -w <workingDir> <Image>
+# -v folder mapping from local path to container path
+# -w default working directory
+
+Example:
+docker run -it --name myubuntu ubuntu
+docker run -it --name myubuntu -v $(PWD):/home  ubuntu
+# $(PWD) is current directory
+docker run -it --name myubuntu -v /Users/name/data:/home -w /home  ubuntu
+# -w The default pwd will be /home
+
+Manage Container
+# List active container
+docker container ls
+
+# List active container
+docker container ls -a
+
+# Stop a running container
+docker container stop <container>
+docker stop <container>
+docker kill <container>
+# kill is force shutdown
+
+# Remove Container
+docker container rm <container>
+docker rm <container>
+
+# Restart Exited Container
+docker start -a -i <container>
+
+# Remove All Inactive Container
+docker container prune
+docker rm $(docker ps -aq)
+
+# Manage Container Process
+# List docker container that is still running
+docker ps
+
+# List all docker container process including exited
+docker ps -a
+
+
+# Manage Image
+# List Image
+docker images
+docker image ls
+
+# Remove docker image
+docker image rm <image>
+docker rmi <image>
+
+# Remove all docker image
+docker image rm $(docker image ls -a -q) 
+
+Example:
+docker image rm nginx
+
+
+# docker machine
+docker-machine ls
+docker-machine active
+docker-machine ip mahcine
+
+# Docker Image Building
+# Convert docker container to image
+docker commit <container> <image:tag>
+
+# Build docker image using Dockerfile
+# Dockerfile must be in the same place where the command is executed.
+docker build -t  <username/image> .
+
+# Pushing Custom Image to Repositories
+# Login to Docker repositories
+docker login
+
+# Tag image before upload
+docker tag <image> username/repository:tag 
+
+# Pushing custom docker image to public repositories
+docker push username/image:tag
+
+
+Checking Docker Version 
+# Check the version of Docker
+docker --version
+# Check the version of Docker Compose
+docker-compose --version
+# Check the version of Docker Machine
+docker-machine --version
+# Check if current Docker is running experimental server
+docker version -f {{.Server.Experimental}}
+
+
+
